@@ -69,5 +69,6 @@ public class ApiProducerTest {
                         "\"ingestion_time\": 1524237281590}, " +
                         "\"payload\": LargeJsonMessage}"
         );
+
     }
 }

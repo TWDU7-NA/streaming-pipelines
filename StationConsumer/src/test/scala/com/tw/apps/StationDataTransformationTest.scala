@@ -15,50 +15,16 @@ class StationDataTransformationTest extends FeatureSpec with Matchers with Given
 
       val testStationData =
         """{
-  "metadata": {
-    "producer_id": "producer_station-nyc",
-    "size": 427711,
-    "message_id": "63e583c8-687b-4694-a851-7d3af33e8dcb",
-    "ingestion_time": 1623184992566
-  },
-  "payload": {
-    "network": {
-      "company": [
-        "NYC Bike Share, LLC",
-        "Motivate International, Inc.",
-        "PBSC Urban Solutions"
-      ],
-      "gbfs_href": "https://gbfs.citibikenyc.com/gbfs/gbfs.json",
-      "href": "/v2/networks/citi-bike-nyc",
-      "id": "citi-bike-nyc",
-      "location": {
-        "city": "New York, NY",
-        "country": "US",
-        "latitude": 40.7143528,
-        "longitude": -74.00597309999999
-      },
-      "name": "Citi Bike",
-      "stations": [
-        {
-          "empty_slots": 27,
-          "extra": {
-            "address": null,
-            "last_updated": 1623183773,
-            "renting": 1,
-            "returning": 1,
-            "uid": "3328"
-          },
-          "free_bikes": 11,
-          "id": "46a983722ee1f51813a6a3eb6534a6e4",
-          "latitude": 40.795,
-          "longitude": -73.9645,
-          "name": "W 100 St & Manhattan Ave",
-          "timestamp": "2021-06-08T20:39:10.969000Z"
-        }
-      ]
-    }
-  }
-}"""
+          "station_id":"83",
+          "bikes_available":19,
+          "docks_available":41,
+          "is_renting":true,
+          "is_returning":true,
+          "last_updated":1536242527,
+          "name":"Atlantic Ave & Fort Greene Pl",
+          "latitude":40.68382604,
+          "longitude":-73.97632328
+          }"""
 
       val schema = ScalaReflection.schemaFor[StationData].dataType //.asInstanceOf[StructType]
 
@@ -90,15 +56,15 @@ class StationDataTransformationTest extends FeatureSpec with Matchers with Given
       resultDF1.schema.fields(8).dataType.typeName should be("double")
 
       val row1 = resultDF1.head()
-      row1.get(0) should be(11)
-      row1.get(1) should be(27)
+      row1.get(0) should be(19)
+      row1.get(1) should be(41)
       row1.get(2) shouldBe true
       row1.get(3) shouldBe true
-      row1.get(4) should be(1623184750)
-      row1.get(5) should be("46a983722ee1f51813a6a3eb6534a6e4")
-      row1.get(6) should be("W 100 St & Manhattan Ave")
-      row1.get(7) should be(40.795)
-      row1.get(8) should be(-73.9645)
+      row1.get(4) should be(1536242527)
+      row1.get(5) should be("83")
+      row1.get(6) should be("Atlantic Ave & Fort Greene Pl")
+      row1.get(7) should be(40.68382604)
+      row1.get(8) should be(-73.97632328)
     }
 
     scenario("Transform france marseille station data frame") {

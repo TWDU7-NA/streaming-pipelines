@@ -24,14 +24,7 @@ object StationDataTransformation {
     extractFranceMarseilleStationStatus(payload)
   }
 
-  val nycToStationStatus: String => Seq[StationData] = raw_payload => {
-    val json = JSON.parseFull(raw_payload)
-    val payload = json.get.asInstanceOf[Map[String, Any]]("payload")
-    extractNYCStationStatus(payload)
-  }
-
   private def extractSFStationStatus(payload: Any) = {
-
     val network: Any = payload.asInstanceOf[Map[String, Any]]("network")
 
     val stations: Any = network.asInstanceOf[Map[String, Any]]("stations")
@@ -73,28 +66,6 @@ object StationDataTransformation {
       })
   }
 
-  private def extractNYCStationStatus(payload: Any) = {
-
-    val network: Any = payload.asInstanceOf[Map[String, Any]]("network")
-
-    val stations: Any = network.asInstanceOf[Map[String, Any]]("stations")
-
-    stations.asInstanceOf[Seq[Map[String, Any]]]
-      .map(x => {
-        StationData(
-          x("free_bikes").asInstanceOf[Double].toInt,
-          x("empty_slots").asInstanceOf[Double].toInt,
-          x("extra").asInstanceOf[Map[String, Any]]("renting").asInstanceOf[Double] == 1,
-          x("extra").asInstanceOf[Map[String, Any]]("returning").asInstanceOf[Double] == 1,
-          Instant.from(DateTimeFormatter.ISO_INSTANT.parse(x("timestamp").asInstanceOf[String])).getEpochSecond,
-          x("id").asInstanceOf[String],
-          x("name").asInstanceOf[String],
-          x("latitude").asInstanceOf[Double],
-          x("longitude").asInstanceOf[Double]
-        )
-      })
-  }
-
   def sfStationStatusJson2DF(jsonDF: DataFrame, spark: SparkSession): DataFrame = {
     val toStatusFn: UserDefinedFunction = udf(sfToStationStatus)
 
@@ -105,11 +76,9 @@ object StationDataTransformation {
   }
 
   def nycStationStatusJson2DF(jsonDF: DataFrame, spark: SparkSession): DataFrame = {
-    val toStatusFn: UserDefinedFunction = udf(nycToStationStatus)
-
     import spark.implicits._
 
-    jsonDF.select(explode(toStatusFn(jsonDF("raw_payload"))) as "status")
+    jsonDF.select(from_json($"raw_payload", ScalaReflection.schemaFor[StationData].dataType) as "status")
       .select($"status.*")
   }
 
