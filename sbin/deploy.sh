@@ -70,7 +70,7 @@ function kill_process {
     then
         echo "no \${query} process running"
     else
-        kill -9 $pid
+        kill -9 \$pid
     fi
 }
 
