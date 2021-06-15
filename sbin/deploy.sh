@@ -145,6 +145,8 @@ nohup spark-submit --master yarn --deploy-mode cluster --class com.tw.apps.Stati
 
 nohup spark-submit --master yarn --deploy-mode cluster --class com.tw.apps.StationLocationApp --name StationDataFRMSSaverApp --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.0 --driver-memory 500M --conf spark.executor.memory=2g --conf spark.cores.max=1 /tmp/tw-raw-data-saver_2.11-0.0.1.jar kafka.${TRAINING_COHORT}.training:2181 "/tw/stationDataFR_MS" 1>/tmp/raw-station-data-fr-ms-saver.log 2>/tmp/raw-station-data-fr-ms-saver.error.log &
 
+spark-submit --master yarn --deploy-mode cluster --class com.tw.apps.StationLocationApp --name StationDataNYCSaverApp --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.3.0 --driver-memory 500M --conf spark.executor.memory=2g --conf spark.cores.max=1 /tmp/tw-raw-data-saver_2.11-0.0.1.jar kafka.${TRAINING_COHORT}.training:2181 "/tw/stationDataNYC" 1>/tmp/raw-station-data-nyc-saver.log 2>/tmp/raw-station-data-nyc-saver.error.log &
+
 echo "====Raw Data Saver Deployed===="
 EOF
 

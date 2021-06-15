@@ -140,9 +140,22 @@ services:
             dockerfile: Dockerfile-station-data-SF
         depends_on:
           - kafka
-          - station-information-producer
-          - station-status-producer
           - station-san-francisco-producer
+          - hadoop-seed
+          - zookeeper-seed
+        volumes:
+          - ~/.ivy2:/root/.ivy2:rw
+        networks:
+          - streaming-data-internal
+        restart: on-failure
+
+    raw-station-data-nyc-saver:
+        build:
+            context: ../RawDataSaver
+            dockerfile: Dockerfile-station-data-NYC
+        depends_on:
+          - kafka
+          - station-nyc-producer
           - hadoop-seed
           - zookeeper-seed
         volumes:
@@ -157,9 +170,7 @@ services:
             dockerfile: Dockerfile-station-data-FR-MS
         depends_on:
           - kafka
-          - station-information-producer
-          - station-status-producer
-          - station-san-francisco-producer
+          - station-france-marseille-producer
           - hadoop-seed
           - zookeeper-seed
         volumes:
