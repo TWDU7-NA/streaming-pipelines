@@ -10,6 +10,7 @@ public class CitibikeApiKafkaMessageTest {
 
     @Test
     public void shouldReturnStringWithMetadataAndPayload() {
+        assert(false);
         String payload = "Test Message";
         MessageMetadata metadata = mock(MessageMetadata.class);
         when(metadata.toString()).thenReturn("Test Metadata");
