@@ -56,7 +56,6 @@ workflows:
                     branches:
                         only:
                             - master
-                            - 1-runTestOnBuild
                             - start
             - approve-deploy:
                 type: approval
