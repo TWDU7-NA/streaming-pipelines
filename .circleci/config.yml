@@ -52,6 +52,12 @@ workflows:
     build_and_deploy:
         jobs:
             - build:
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - 1-runTestOnBuild
+                            - start
             - approve-deploy:
                 type: approval
                 requires: 
