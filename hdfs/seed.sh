@@ -2,11 +2,7 @@
 
 set -e
 
-$hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationInformation/checkpoints \
-&& $hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationInformation/data \
-&& $hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationStatus/checkpoints \
-&& $hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationStatus/data \
-&& $hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationDataSF/checkpoints \
+$hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationDataSF/checkpoints \
 && $hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationDataSF/data \
 && $hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationDataFR_MS/checkpoints \
 && $hadoop_path fs -fs hdfs://$hdfs_server -mkdir -p /tw/rawData/stationDataFR_MS/data \
