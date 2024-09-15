@@ -54,7 +54,7 @@ workflows:
             - build:
                 filters:
                     branches:
-                        only: 
+                        only:
                             - master
                             - start
             - approve-deploy:

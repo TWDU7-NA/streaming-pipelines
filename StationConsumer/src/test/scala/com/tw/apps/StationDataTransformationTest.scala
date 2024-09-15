@@ -12,7 +12,6 @@ class StationDataTransformationTest extends FeatureSpec with Matchers with Given
     import spark.implicits._
 
     scenario("Transform nyc station data frame") {
-
       val testStationData =
         """{
   "metadata": {
